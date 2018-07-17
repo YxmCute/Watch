@@ -1,1 +1,1 @@
-include ':app', ':module_zhihu', ':module_gank', ':module_wanandroid'
+include ':app', ':module_zhihu', ':module_gank', ':module_wanandroid', ':component_base'

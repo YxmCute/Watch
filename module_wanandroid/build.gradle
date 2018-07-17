@@ -3,6 +3,7 @@ if (Boolean.valueOf(rootProject.ext.module_wanandroid)) {
 } else {
   apply plugin: 'com.android.library'
 }
+
 android {
   compileSdkVersion rootProject.ext.android.compileSdkVersion
 
@@ -38,13 +39,19 @@ android {
   }
 
 
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
 }
 
 dependencies {
-  implementation fileTree(dir: 'libs', include: ['*.jar'])
+  implementation fileTree(include: ['*.jar'], dir: 'libs')
   api rootProject.ext.dependencies["appcompat-v7"]
-
   api rootProject.ext.dependencies["design"]
+  implementation project(':component_base')
+  //implementation rootProject.ext.component_base["butterknife"]
+ // annotationProcessor rootProject.ext.component_base["butterknife-compiler"]
   implementation 'com.android.support.constraint:constraint-layout:1.1.2'
   testImplementation 'junit:junit:4.12'
   androidTestImplementation 'com.android.support.test:runner:1.0.2'

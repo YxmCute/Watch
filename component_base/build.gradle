@@ -1,8 +1,4 @@
-if (Boolean.valueOf(rootProject.ext.module_gank)) {
-  apply plugin: 'com.android.application'
-} else {
-  apply plugin: 'com.android.library'
-}
+apply plugin: 'com.android.library'
 
 android {
   compileSdkVersion rootProject.ext.android.compileSdkVersion
@@ -10,7 +6,6 @@ android {
 
 
   defaultConfig {
-
     minSdkVersion rootProject.ext.defaultConfig.minSdkVersion
     targetSdkVersion rootProject.ext.defaultConfig.targetSdkVersion
     versionCode rootProject.ext.defaultConfig.versionCode
@@ -25,29 +20,15 @@ android {
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
   }
-  sourceSets {
-    main {
-      if (rootProject.ext.module_gank) {
-        manifest.srcFile 'src/main/module/AndroidManifest.xml'
-      } else {
-        manifest.srcFile 'src/main/AndroidManifest.xml'
-        java {
-          //排除java/debug文件夹下的所有文件
-          exclude '*module'
-        }
-      }
-    }
-  }
-  compileOptions {
-    sourceCompatibility JavaVersion.VERSION_1_8
-    targetCompatibility JavaVersion.VERSION_1_8
-  }
 }
 
 dependencies {
-  implementation fileTree(include: ['*.jar'], dir: 'libs')
+  implementation fileTree(dir: 'libs', include: ['*.jar'])
+  api rootProject.ext.component_base["utilcode"]
+  /*
+  api rootProject.ext.component_base["butterknife"]
+  annotationProcessor rootProject.ext.component_base["butterknife-compiler"]*/
   implementation 'com.android.support:appcompat-v7:28.0.0-alpha3'
-  implementation 'com.android.support.constraint:constraint-layout:1.1.2'
   testImplementation 'junit:junit:4.12'
   androidTestImplementation 'com.android.support.test:runner:1.0.2'
   androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
