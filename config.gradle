@@ -1,8 +1,8 @@
 ext {
-  isModule = true
+  isModule = false
   module_wanandroid = false
-  module_zhihu = true
-  module_gank = true
+  module_zhihu = false
+  module_gank = false
   module_weather = false
 
   android = [compileSdkVersion: 28]

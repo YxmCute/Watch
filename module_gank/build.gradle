@@ -17,6 +17,8 @@ android {
     versionName rootProject.ext.defaultConfig.versionName
 
     testInstrumentationRunner rootProject.ext.defaultConfig.testInstrumentationRunner
+    //强制前缀
+    resourcePrefix "gank_"
   }
 
   buildTypes {
@@ -33,7 +35,7 @@ android {
         manifest.srcFile 'src/main/AndroidManifest.xml'
         java {
           //排除java/debug文件夹下的所有文件
-          exclude '*module'
+          exclude '*debug'
         }
       }
     }

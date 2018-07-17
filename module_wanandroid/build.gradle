@@ -14,6 +14,8 @@ android {
     versionCode rootProject.defaultConfig.versionCode
     versionName rootProject.defaultConfig.versionName
     testInstrumentationRunner rootProject.defaultConfig.testInstrumentationRunner
+    //强制前缀
+    resourcePrefix "wanandroid_"
   }
 
   buildTypes {
@@ -33,6 +35,8 @@ android {
         java {
           //排除java/debug文件夹下的所有文件
           exclude '*module'
+          //exclude '*debug'
+          //exclude 'debug/**'
         }
       }
     }

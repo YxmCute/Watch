@@ -4,7 +4,7 @@
 extern "C" JNIEXPORT jstring
 
 JNICALL
-Java_com_koma_gankio_MainActivity_stringFromJNI(
+Java_com_koma_watch_MainActivity_stringFromJNI(
     JNIEnv *env,
     jobject /* this */) {
   std::string hello = "Hello from C++";

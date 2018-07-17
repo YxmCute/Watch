@@ -1,4 +1,4 @@
-package com.koma.gankio
+package com.koma.watch
 
 import org.junit.Test
 
