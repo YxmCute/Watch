@@ -1,8 +1,11 @@
 if (Boolean.valueOf(rootProject.ext.module_gank)) {
-  apply plugin: 'com.android.application'
+  apply plugin: rootProject.ext.plugins.application
 } else {
-  apply plugin: 'com.android.library'
+  apply plugin: rootProject.ext.plugins.library
 }
+
+apply plugin: rootProject.ext.plugins.kotlin_android
+apply plugin: rootProject.ext.plugins.kotlin_android_extensions
 
 android {
   compileSdkVersion rootProject.ext.android.compileSdkVersion
@@ -15,11 +18,30 @@ android {
     targetSdkVersion rootProject.ext.defaultConfig.targetSdkVersion
     versionCode rootProject.ext.defaultConfig.versionCode
     versionName rootProject.ext.defaultConfig.versionName
-
     testInstrumentationRunner rootProject.ext.defaultConfig.testInstrumentationRunner
+    multiDexEnabled rootProject.ext.defaultConfig.multiDexEnabled
+
     //强制前缀
     resourcePrefix "gank_"
+    javaCompileOptions {
+      annotationProcessorOptions {
+        arguments = [ moduleName : project.getName() ]
+      }
+    }
+    flavorDimensions "versionCode"
+    productFlavors {
+      dev {
+        // Enable pre-dexing to produce an APK that can be tested on
+        // Android 5.0+ without the time-consuming DEX build processes.
+        minSdkVersion 21
+      }
+      prod {
+        // The actual minSdkVersion for the production version.
+        minSdkVersion 14
+      }
+    }
   }
+
 
   buildTypes {
     release {
@@ -48,9 +70,13 @@ android {
 
 dependencies {
   implementation fileTree(include: ['*.jar'], dir: 'libs')
-  implementation 'com.android.support:appcompat-v7:28.0.0-alpha3'
+  implementation project(':component_base')
+  annotationProcessor rootProject.ext.component_annotationPocessor.arouter_complier
+
+
+  /*implementation 'com.android.support:appcompat-v7:28.0.0-alpha3'
   implementation 'com.android.support.constraint:constraint-layout:1.1.2'
   testImplementation 'junit:junit:4.12'
   androidTestImplementation 'com.android.support.test:runner:1.0.2'
-  androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+  androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'*/
 }

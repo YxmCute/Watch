@@ -8,7 +8,7 @@ apply plugin: 'kotlin-android-extensions'
 android {
   compileSdkVersion 28
   defaultConfig {
-    applicationId "com.koma.gankio"
+    applicationId "com.koma.watch"
     minSdkVersion 15
     targetSdkVersion 28
     versionCode 1
@@ -19,6 +19,24 @@ android {
         cppFlags ""
       }
     }*/
+
+    javaCompileOptions {
+      annotationProcessorOptions {
+        arguments = [moduleName: project.getName()]
+      }
+    }
+    flavorDimensions "versionCode"
+    productFlavors {
+      dev {
+        // Enable pre-dexing to produce an APK that can be tested on
+        // Android 5.0+ without the time-consuming DEX build processes.
+        minSdkVersion 21
+      }
+      prod {
+        // The actual minSdkVersion for the production version.
+        minSdkVersion 14
+      }
+    }
   }
   buildTypes {
     release {
@@ -43,6 +61,8 @@ dependencies {
   androidTestImplementation 'com.android.support.test:runner:1.0.2'
   androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
   implementation project(':component_base')
+  annotationProcessor rootProject.ext.component_annotationPocessor.arouter_complier
+
   if (!rootProject.ext.isModule) {
     implementation project(':module_wanandroid')
     implementation project(':module_gank')

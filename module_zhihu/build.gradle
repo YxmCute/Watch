@@ -1,21 +1,45 @@
 if (Boolean.valueOf(rootProject.ext.module_zhihu)) {
-  apply plugin: 'com.android.application'
+  apply plugin: rootProject.ext.plugins.application
 } else {
-  apply plugin: 'com.android.library'
+  apply plugin: rootProject.ext.plugins.library
 }
+
+apply plugin: rootProject.ext.plugins.kotlin_android
+apply plugin: rootProject.ext.plugins.kotlin_android_extensions
+
 android {
   compileSdkVersion rootProject.ext.android.compileSdkVersion
 
   defaultConfig {
 
-    minSdkVersion rootProject.defaultConfig.minSdkVersion
-    targetSdkVersion rootProject.defaultConfig.targetSdkVersion
-    versionCode rootProject.defaultConfig.versionCode
-    versionName rootProject.defaultConfig.versionName
-    testInstrumentationRunner rootProject.defaultConfig.testInstrumentationRunner
+    minSdkVersion rootProject.ext.defaultConfig.minSdkVersion
+    targetSdkVersion rootProject.ext.defaultConfig.targetSdkVersion
+    versionCode rootProject.ext.defaultConfig.versionCode
+    versionName rootProject.ext.defaultConfig.versionName
+    testInstrumentationRunner rootProject.ext.defaultConfig.testInstrumentationRunner
+    multiDexEnabled rootProject.ext.defaultConfig.multiDexEnabled
+
     //强制前缀
     resourcePrefix "zhihu_"
+    javaCompileOptions {
+      annotationProcessorOptions {
+        arguments = [moduleName: project.getName()]
+      }
+    }
+    flavorDimensions "versionCode"
+    productFlavors {
+      dev {
+        // Enable pre-dexing to produce an APK that can be tested on
+        // Android 5.0+ without the time-consuming DEX build processes.
+        minSdkVersion 21
+      }
+      prod {
+        // The actual minSdkVersion for the production version.
+        minSdkVersion 14
+      }
+    }
   }
+
 
   buildTypes {
     release {
@@ -44,9 +68,13 @@ android {
 
 dependencies {
   implementation fileTree(include: ['*.jar'], dir: 'libs')
-  api rootProject.ext.dependencies["appcompat-v7"]
-  api rootProject.ext.dependencies["constraint-layout"]
-  testImplementation rootProject.ext.dependencies["junit"]
+  implementation project(':component_base')
+  annotationProcessor rootProject.ext.component_annotationPocessor.arouter_complier
+
+
+  /* api rootProject.ext.dependencies_ui.appcompat_v7
+   api rootProject.ext.dependencies_ui.constraint_layout
+   testImplementation rootProject.ext.dependencies_other.junit*/
   //androidTestImplementation 'com.android.support.test:runner:1.0.2'
   //androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }

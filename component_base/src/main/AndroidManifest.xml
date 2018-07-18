@@ -1,2 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.koma.component_base" />
+    package="com.koma.component_base">
+
+    <application
+        android:allowBackup="true"
+        android:supportsRtl="true"
+        >
+
+    </application>
+</manifest>

@@ -1,5 +1,6 @@
 package com.koma.wanandroid;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -12,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import com.alibaba.android.arouter.launcher.ARouter;
 
 public class MainActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
@@ -21,7 +23,7 @@ public class MainActivity extends AppCompatActivity
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
+    setContentView(R.layout.wanandroid_activity_main);
 
 
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity
       public void onClick(View view) {
         Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
             .setAction("Action", null).show();
+        startActivity(new Intent(MainActivity.this,WanandroidActivityMain2Activity.class));
       }
     });
 
@@ -89,8 +92,11 @@ public class MainActivity extends AppCompatActivity
     int id = item.getItemId();
 
     if (id == R.id.nav_camera) {
+      ARouter.getInstance().build("/zhihu/main").navigation();
       // Handle the camera action
     } else if (id == R.id.nav_gallery) {
+      ARouter.getInstance().build("/gank/main").navigation();
+
 
     } else if (id == R.id.nav_slideshow) {
 
