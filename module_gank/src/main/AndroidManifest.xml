@@ -5,7 +5,7 @@
     <application
         >
         <activity
-            android:theme="@style/Theme.Design.NoActionBar"
+            android:theme="@style/swipeTheme"
             android:name="com.koma.gank.MainActivity"/>
 
         <!--android:allowBackup="true"

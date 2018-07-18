@@ -23,7 +23,7 @@ android {
         arguments = [ moduleName : project.getName() ]
       }
     }
-    flavorDimensions "versionCode"
+    /*flavorDimensions "versionCode"
     productFlavors {
       dev {
         // Enable pre-dexing to produce an APK that can be tested on
@@ -35,7 +35,7 @@ android {
         minSdkVersion 14
       }
     }
-
+*/
   }
 
   buildTypes {

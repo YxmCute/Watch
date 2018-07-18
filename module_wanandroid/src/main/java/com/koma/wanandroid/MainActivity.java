@@ -93,6 +93,9 @@ public class MainActivity extends AppCompatActivity
 
     if (id == R.id.nav_camera) {
       ARouter.getInstance().build("/zhihu/main").navigation();
+      item.setChecked(false);
+
+
       // Handle the camera action
     } else if (id == R.id.nav_gallery) {
       ARouter.getInstance().build("/gank/main").navigation();
@@ -111,5 +114,12 @@ public class MainActivity extends AppCompatActivity
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     drawer.closeDrawer(GravityCompat.START);
     return true;
+  }
+
+
+  @Override protected void onPause() {
+    super.onPause();
+
+
   }
 }
