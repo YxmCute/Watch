@@ -6,6 +6,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.koma.component_base.base.SwipeActivity;
 import com.koma.gank.R;
 
+
 @Route(path = "/gank/main")
 public class MainActivity extends SwipeActivity {
 

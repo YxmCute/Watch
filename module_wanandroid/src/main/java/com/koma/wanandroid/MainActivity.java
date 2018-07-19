@@ -10,22 +10,59 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.google.gson.Gson;
+import com.koma.component_base.base.BaseResponse;
+import com.koma.component_base.bean.w.BannerData;
+import com.koma.component_base.net.ApiConstants;
+import com.koma.component_base.net.HttpClient;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+import java.util.List;
+import java.util.Objects;
+import okhttp3.OkHttpClient;
+import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
-
-
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.wanandroid_activity_main);
+    HttpClient client = new HttpClient();
+    ApiConstants apiConstants = Objects.requireNonNull(client.wanandroidRetrofit()).create(ApiConstants.class);
+    apiConstants.getGetBanner().subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Observer<BaseResponse<List<BannerData>>>() {
+          @Override public void onSubscribe(Disposable d) {
+
+          }
 
 
+          @Override public void onNext(BaseResponse<List<BannerData>> listBaseResponse) {
+            List<BannerData> bannerDataList = listBaseResponse.getData();
+            Log.i("timo", bannerDataList.size() + "");
+
+          }
+
+
+          @Override public void onError(Throwable e) {
+
+          }
+
+
+          @Override public void onComplete() {
+
+          }
+        });
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
 
@@ -35,7 +72,7 @@ public class MainActivity extends AppCompatActivity
       public void onClick(View view) {
         Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
             .setAction("Action", null).show();
-        startActivity(new Intent(MainActivity.this,WanandroidActivityMain2Activity.class));
+        startActivity(new Intent(MainActivity.this, WanandroidActivityMain2Activity.class));
       }
     });
 
@@ -95,11 +132,9 @@ public class MainActivity extends AppCompatActivity
       ARouter.getInstance().build("/zhihu/main").navigation();
       item.setChecked(false);
 
-
       // Handle the camera action
     } else if (id == R.id.nav_gallery) {
       ARouter.getInstance().build("/gank/main").navigation();
-
 
     } else if (id == R.id.nav_slideshow) {
 
@@ -119,7 +154,6 @@ public class MainActivity extends AppCompatActivity
 
   @Override protected void onPause() {
     super.onPause();
-
 
   }
 }

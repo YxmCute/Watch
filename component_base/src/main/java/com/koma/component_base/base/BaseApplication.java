@@ -13,10 +13,12 @@ import com.koma.component_base.BuildConfig;
  */
 public class BaseApplication extends Application {
   public static boolean IS_DEBUG = BuildConfig.DEBUG;
+  private static BaseApplication mApp;
 
 
   @Override protected void attachBaseContext(Context base) {
     super.attachBaseContext(base);
+    mApp = this;
     MultiDex.install(this);
   }
 
@@ -29,5 +31,10 @@ public class BaseApplication extends Application {
       ARouter.openDebug();
     }
     ARouter.init(this);
+  }
+
+
+  public static Application getAPP() {
+    return mApp;
   }
 }
