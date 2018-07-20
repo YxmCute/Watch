@@ -20,7 +20,7 @@ android {
     multiDexEnabled rootProject.ext.defaultConfig.multiDexEnabled
 
     //强制前缀
-    resourcePrefix "zhihu_"
+    resourcePrefix "z_"
     javaCompileOptions {
       annotationProcessorOptions {
         arguments = [moduleName: project.getName()]

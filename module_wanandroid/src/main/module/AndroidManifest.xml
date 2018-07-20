@@ -3,6 +3,7 @@
     package="com.koma.wanandroid">
 
     <application
+        android:name=".debug.MyAPP"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="test"
@@ -19,7 +20,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".WanandroidActivityMain2Activity"/>
     </application>
 
 </manifest>

@@ -22,7 +22,7 @@ android {
     multiDexEnabled rootProject.ext.defaultConfig.multiDexEnabled
 
     //强制前缀
-    resourcePrefix "gank_"
+    resourcePrefix "g_"
     javaCompileOptions {
       annotationProcessorOptions {
         arguments = [ moduleName : project.getName() ]

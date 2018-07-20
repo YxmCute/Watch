@@ -19,7 +19,7 @@ android {
     testInstrumentationRunner rootProject.ext.defaultConfig.testInstrumentationRunner
     multiDexEnabled rootProject.ext.defaultConfig.multiDexEnabled
     //强制前缀
-    resourcePrefix "wanandroid_"
+    resourcePrefix "w_"
     javaCompileOptions {
       annotationProcessorOptions {
         arguments = [ moduleName : project.getName() ]

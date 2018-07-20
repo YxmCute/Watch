@@ -2,9 +2,13 @@ package com.koma.wanandroid;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,27 +20,76 @@ import android.view.MenuItem;
 import android.view.View;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.gson.Gson;
+import com.koma.component_base.base.BaseFragment;
 import com.koma.component_base.base.BaseResponse;
 import com.koma.component_base.bean.w.BannerData;
 import com.koma.component_base.net.ApiConstants;
 import com.koma.component_base.net.HttpClient;
+import com.koma.wanandroid.ui.fragment.KnowledgeFragment;
+import com.koma.wanandroid.ui.fragment.MainFragment;
+import com.koma.wanandroid.ui.fragment.MeFragment;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity
-    implements NavigationView.OnNavigationItemSelectedListener {
+    implements NavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener {
+  private BottomNavigationView bottomNavigationView;
+  private DrawerLayout drawer;
+  private MainFragment mainFragment;
+  private KnowledgeFragment knowledgeFragment;
+  private MeFragment meFragment;
+  private List<BaseFragment> baseFragmentList = new ArrayList<>();
+  private FragmentManager fragmentManager = getSupportFragmentManager();
+
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    if (savedInstanceState != null) {
+      Log.i("timo", "onCreate:" + savedInstanceState.toString());
+
+    } else {
+      Log.i("timo", "onCreate");
+    }
+
     setContentView(R.layout.wanandroid_activity_main);
+
+    if (fragmentManager.findFragmentByTag("main") == null) {
+      mainFragment = new MainFragment();
+      baseFragmentList.add(mainFragment);
+
+    } else {
+      baseFragmentList.add((MainFragment) fragmentManager.findFragmentByTag("main"));
+    }
+    if (fragmentManager.findFragmentByTag("know") == null) {
+      knowledgeFragment = new KnowledgeFragment();
+      baseFragmentList.add(knowledgeFragment);
+
+    } else {
+      baseFragmentList.add((KnowledgeFragment) fragmentManager.findFragmentByTag("know"));
+
+    }
+    if (fragmentManager.findFragmentByTag("me") == null) {
+      meFragment = new MeFragment();
+      baseFragmentList.add(meFragment);
+
+    } else {
+      baseFragmentList.add((MeFragment) fragmentManager.findFragmentByTag("me"));
+
+    }
+    if (savedInstanceState == null) {
+      setSelectIndex(0);
+    }
+    bottomNavigationView = findViewById(R.id.bottom_navigation);
+    bottomNavigationView.setOnNavigationItemSelectedListener(this);
     HttpClient client = new HttpClient();
     ApiConstants apiConstants = Objects.requireNonNull(client.wanandroidRetrofit()).create(ApiConstants.class);
     apiConstants.getGetBanner().subscribeOn(Schedulers.io())
@@ -66,17 +119,7 @@ public class MainActivity extends AppCompatActivity
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
 
-    FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-    fab.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-            .setAction("Action", null).show();
-        startActivity(new Intent(MainActivity.this, WanandroidActivityMain2Activity.class));
-      }
-    });
-
-    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+    drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
         this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
     drawer.addDrawerListener(toggle);
@@ -87,9 +130,49 @@ public class MainActivity extends AppCompatActivity
   }
 
 
+  private void setSelectIndex(int index) {
+    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+    for (int i = 0; i < baseFragmentList.size(); i++) {
+      BaseFragment fragment = baseFragmentList.get(i);
+
+      if (i == index) {
+
+        if (null != fragment) {
+          if (fragment.isAdded()) {
+            fragmentTransaction.show(fragment);
+          } else {
+            switch (index) {
+              case 0:
+                fragmentTransaction.add(R.id.frameLayout, fragment, "main");
+
+                break;
+              case 1:
+                fragmentTransaction.add(R.id.frameLayout, fragment, "know");
+
+                break;
+              case 2:
+                fragmentTransaction.add(R.id.frameLayout, fragment, "me");
+
+                break;
+              default:
+                break;
+            }
+          }
+        }
+      } else {
+        if (fragment.isAdded() && !fragment.isHidden()) {
+          fragmentTransaction.hide(fragment);
+        }
+      }
+    }
+    fragmentTransaction.commit();
+
+  }
+
+
   @Override
   public void onBackPressed() {
-    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
     if (drawer.isDrawerOpen(GravityCompat.START)) {
       drawer.closeDrawer(GravityCompat.START);
     } else {
@@ -125,6 +208,8 @@ public class MainActivity extends AppCompatActivity
   @SuppressWarnings("StatementWithEmptyBody")
   @Override
   public boolean onNavigationItemSelected(MenuItem item) {
+    FragmentManager fragmentManager = getSupportFragmentManager();
+    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
     // Handle navigation view item clicks here.
     int id = item.getItemId();
 
@@ -144,10 +229,23 @@ public class MainActivity extends AppCompatActivity
 
     } else if (id == R.id.nav_send) {
 
+    } else if (id == R.id.navigation_home) {
+      setSelectIndex(0);
+
+      Log.i("timo", "home");
+    } else if (id == R.id.navigation_dashboard) {
+      setSelectIndex(1);
+
+    } else if (id == R.id.navigation_notifications) {
+      setSelectIndex(2);
+
+      Log.i("timo", "navigation_notifications");
     }
 
-    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-    drawer.closeDrawer(GravityCompat.START);
+    if (drawer.isDrawerOpen(GravityCompat.START)) {
+      drawer.closeDrawer(GravityCompat.START);
+    }
+
     return true;
   }
 
@@ -155,5 +253,33 @@ public class MainActivity extends AppCompatActivity
   @Override protected void onPause() {
     super.onPause();
 
+  }
+
+
+  @Override protected void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    if (outState != null) {
+      Log.i("timo", "onSaveInstanceState:" + outState.toString());
+
+    } else {
+      Log.i("timo", "onSaveInstanceState");
+    }
+  }
+
+
+  @Override public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+    super.onSaveInstanceState(outState, outPersistentState);
+    Log.i("timo", "onSaveInstanceState--");
+
+  }
+
+
+  @Override protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    super.onRestoreInstanceState(savedInstanceState);
+    if (savedInstanceState != null) {
+      Log.i("timo", "onRestoreInstanceState:" + savedInstanceState.toString());
+    } else {
+      Log.i("timo", "onRestoreInstanceState");
+    }
   }
 }
