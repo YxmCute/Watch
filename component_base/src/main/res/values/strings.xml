@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">component_base</string>
+    <string name="mainpage">首页</string>
+    <string name="mepage">我</string>
 </resources>

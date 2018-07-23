@@ -1,5 +1,6 @@
 package com.koma.wanandroid.ui.fragment;
 
+import android.graphics.ImageDecoder;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,6 +21,7 @@ public class KnowledgeFragment extends BaseFragment {
     View view = inflater.inflate(R.layout.w_fragment_know, container, false);
     return view;
   }
+
 
 
   @Override public void onHiddenChanged(boolean hidden) {

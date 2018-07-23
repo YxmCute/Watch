@@ -26,20 +26,12 @@ import java.util.List;
  * @des
  */
 public class MainFragment extends BaseFragment {
-  private List<Test> testList = new ArrayList<>();
+
 
 
   @Nullable @Override public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.w_fragment_main, container, false);
-    for (int i = 0; i < 50; i++) {
-      Test test = new Test();
-      test.setString(i + "");
-      testList.add(test);
-    }
-    TestAdapter adapter = new TestAdapter(R.layout.w_itme_text, testList);
-    RecyclerView recyclerView = view.findViewById(R.id.recycler);
-    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-    recyclerView.setAdapter(adapter);
+
     return view;
   }
 
