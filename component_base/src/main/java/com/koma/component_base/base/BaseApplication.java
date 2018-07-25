@@ -1,6 +1,9 @@
 package com.koma.component_base.base;
 
 import android.app.Application;
+import android.arch.lifecycle.LifecycleObserver;
+import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.ViewModel;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 import com.alibaba.android.arouter.launcher.ARouter;

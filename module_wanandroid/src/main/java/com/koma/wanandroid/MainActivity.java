@@ -229,14 +229,14 @@ public class MainActivity extends AppCompatActivity
 
     } else if (id == R.id.nav_send) {
 
-    } else if (id == R.id.navigation_home) {
+    } else if (id == R.id.navigation_main) {
       setSelectIndex(0);
 
       Log.i("timo", "home");
-    } else if (id == R.id.navigation_dashboard) {
+    } else if (id == R.id.navigation_knowledge) {
       setSelectIndex(1);
 
-    } else if (id == R.id.navigation_notifications) {
+    } else if (id == R.id.navigation_me) {
       setSelectIndex(2);
 
       Log.i("timo", "navigation_notifications");

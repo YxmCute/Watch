@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.koma.component_base.base.BaseFragment;
 import com.koma.wanandroid.R;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Koma
@@ -16,12 +17,13 @@ import com.koma.wanandroid.R;
  * @des
  */
 public class MeFragment extends BaseFragment {
-  @Nullable @Override public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.w_fragment_me, container, false);
-    return view;
+
+  @Override public void initView(@NotNull View v) {
+
   }
-  @Override public void onHiddenChanged(boolean hidden) {
-    super.onHiddenChanged(hidden);
-    Log.i("timo", "me "+hidden);
+
+
+  @Override public int getContainerView() {
+    return R.layout.w_fragment_me;
   }
 }

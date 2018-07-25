@@ -9,14 +9,14 @@ import com.koma.component_base.base.BaseResponse
  */
 class BannerData {
 
-  private var desc: String? = null
-  private var id: Int = 0
-  private var imagePath: String? = null
-  private var isVisible: Int = 0
-  private var order: Int = 0
-  private var title: String? = null
-  private var type: Int = 0
-  private var url: String? = null
+  var desc: String? = null
+  var id: Int = 0
+  var imagePath: String? = null
+  var isVisible: Int = 0
+  var order: Int = 0
+  var title: String? = null
+  var type: Int = 0
+  var url: String? = null
 
 
 }

@@ -41,7 +41,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-
+            app:itemTextColor="@color/w_item_nav_selector"
+            app:itemIconTint="@color/w_item_nav_selector"
             android:background="?android:attr/windowBackground"
 
             app:menu="@menu/navigation" />

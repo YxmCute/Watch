@@ -20,7 +20,7 @@ android {
     //集成或者组件模式下必须配置（arouter 要求）
     javaCompileOptions {
       annotationProcessorOptions {
-        arguments = [ moduleName : project.getName() ]
+        arguments = [moduleName: project.getName()]
       }
     }
     /*flavorDimensions "versionCode"
@@ -57,8 +57,8 @@ dependencies {
   rootProject.ext.dependencies_ui.each { k, v -> api v }
 
   rootProject.ext.component_base.each { k, v -> api v }
-
-  annotationProcessor rootProject.ext.component_annotationPocessor.arouter_complier
+  rootProject.ext.component_annotationPocessor.each { k, v -> annotationProcessor v }
+  //annotationProcessor rootProject.ext.component_annotationPocessor.arouter_complier
 
   // api rootProject.ext.component_base["utilcode"]
   /*
