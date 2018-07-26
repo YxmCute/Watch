@@ -252,7 +252,22 @@ public class MainActivity extends AppCompatActivity
 
   @Override protected void onPause() {
     super.onPause();
+    Log.i("timo", "onPause");
 
+
+  }
+
+
+  @Override protected void onRestart() {
+    super.onRestart();
+    Log.i("timo", "onRestart");
+
+  }
+
+
+  @Override protected void onDestroy() {
+    super.onDestroy();
+    Log.i("timo", "onDestroy");
   }
 
 
