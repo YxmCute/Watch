@@ -9,7 +9,8 @@ import android.content.Context
  * @des
  */
 interface IView {
-  val context: Context
+  fun getContext(): Context
+
   fun showError(msg: String, code: Int)
   fun showDialog()
   fun closeDialog()

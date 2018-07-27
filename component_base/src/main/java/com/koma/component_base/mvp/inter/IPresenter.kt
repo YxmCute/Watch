@@ -10,8 +10,8 @@ import android.content.Context
  * @date 2018/7/25 下午 05:15
  * @des
  */
-interface IPresenter<V : IView> : LifecycleObserver {
-  val context: Context
+interface IPresenter< V : IView> : LifecycleObserver {
+  fun getContext(): Context
 
 
   fun attachView(view: V)

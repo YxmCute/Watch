@@ -19,19 +19,23 @@ abstract class BasePresenter<V : IView, M : IModel> {
     protected set
 
   private var compositeDisposable: CompositeDisposable? = null
-  val context: Context
-    get() = view!!.context
+  /* val context: Context
+     get() = view!!.context*/
 
-  @CallSuper
-  fun attachView(v: V) {
-    this.view = v
-    if (model == null) {
-      this.model = createModel()
-    }
+  fun getContext(): Context {
+    return view!!.getContext()
   }
 
   @CallSuper
-  fun detachView() {
+  open fun attachView(v: V) {
+     this.view = v
+     if (model == null) {
+       this.model = createModel()
+     }
+  }
+
+  @CallSuper
+  open fun detachView() {
     if (model != null) {
       clearPool()
     }

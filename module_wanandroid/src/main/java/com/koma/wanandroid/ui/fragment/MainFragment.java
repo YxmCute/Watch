@@ -1,11 +1,15 @@
 package com.koma.wanandroid.ui.fragment;
 
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import com.koma.component_base.base.BaseFragment;
 import com.koma.component_base.bean.w.BannerData;
+import com.koma.component_base.mvp.inter.BaseMvpFragment;
 import com.koma.component_base.net.HttpClient;
 import com.koma.wanandroid.R;
 import java.util.ArrayList;
@@ -17,7 +21,7 @@ import org.jetbrains.annotations.NotNull;
  * @date 2018/7/20 上午 10:47
  * @des
  */
-public class MainFragment extends BaseFragment  {
+public class MainFragment extends BaseMvpFragment<> {
   private SwipeRefreshLayout refreshLayout;
 
   private RecyclerView rvMain;
@@ -32,6 +36,11 @@ public class MainFragment extends BaseFragment  {
    // getLifecycle().addObserver(testP);
 
 
+  }
+
+
+  @Override public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
   }
 
 
