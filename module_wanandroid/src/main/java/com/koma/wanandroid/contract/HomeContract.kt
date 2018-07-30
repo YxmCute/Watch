@@ -30,8 +30,8 @@ interface HomeContract {
 
 
   interface Model : IModel {
-    val bannerData: Observable<BaseResponse<List<BannerData>>>
-    val articleListData: Observable<BaseResponse<ArticleBean>>
+    var bannerData: Observable<BaseResponse<List<BannerData>>>
+    var articleListData: Observable<BaseResponse<ArticleBean>>
 
   }
 }

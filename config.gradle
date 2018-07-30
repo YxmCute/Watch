@@ -54,7 +54,7 @@ ext {
                     gson                         : 'com.google.code.gson:gson:2.8.5',
                     logging_interceptor          : 'com.squareup.okhttp3:logging-interceptor:3.11.0',
                     baseRecyclerViewAdapterHelper: 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.40',
-
+                    banner                       : 'com.youth.banner:banner:1.4.10',
 
                     /*butterknife         : 'com.jakewharton:butterknife:8.4.0',
                     butterknife_compiler: 'com.jakewharton:butterknife-compiler:8.4.0',*/
