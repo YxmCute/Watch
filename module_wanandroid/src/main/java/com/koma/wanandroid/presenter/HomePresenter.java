@@ -1,16 +1,19 @@
 package com.koma.wanandroid.presenter;
 
+import android.app.backup.RestoreObserver;
 import android.content.Context;
 import android.database.Observable;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import com.koma.component_base.base.BaseObserver;
 import com.koma.component_base.base.BaseResponse;
 import com.koma.component_base.bean.w.BannerData;
 import com.koma.component_base.mvp.BasePresenter;
 import com.koma.wanandroid.bean.ArticleBean;
 import com.koma.wanandroid.contract.HomeContract;
 import com.koma.wanandroid.helper.GlideImageLoader;
+import com.koma.wanandroid.model.HomeModel;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -18,6 +21,7 @@ import com.youth.banner.listener.OnBannerListener;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.ResourceObserver;
 import java.util.ArrayList;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
@@ -75,43 +79,37 @@ public class HomePresenter extends BasePresenter<HomeContract.View, HomeContract
 
   @Override public void loadBanner() {
     addDisposable(model.getBannerData()
-       /* .doOnSubscribe(disposable ->
-        {
+        /* .doOnSubscribe(disposable ->
+         {
 
-        })*/
+         })*/
+
         .subscribeOn(AndroidSchedulers.mainThread())
-       /* .doFinally(() -> {*//*view.closeDialog()*//*})*/
-        .subscribeWith(new Observer<BaseResponse<List<BannerData>>>() {
-          @Override public void onSubscribe(Disposable d) {
+        /* .doFinally(() -> {*//*view.closeDialog()*//*})*/
+        .subscribeWith(new BaseObserver<BaseResponse<List<BannerData>>>() {
+                         @Override public void onNext(BaseResponse<List<BannerData>> listBaseResponse) {
+                           List<BannerData> bannerData = listBaseResponse.getData();
+                           initBanner(bannerData);
+                         }
 
-          }
-
-
-          @Override public void onNext(BaseResponse<List<BannerData>> listBaseResponse) {
-
-          }
-
-
-          @Override public void onError(Throwable e) {
-
-          }
-
-
-          @Override public void onComplete() {
-
-          }
-        }));
+                       }
+        ));
 
   }
 
 
   @Override public void playBanner() {
+    if (banner!=null){
+      banner.startAutoPlay();
+    }
 
   }
 
 
   @Override public void stopBanner() {
-
+    if (banner!=null){
+      banner.stopAutoPlay();
+    }
   }
 
 
@@ -121,7 +119,7 @@ public class HomePresenter extends BasePresenter<HomeContract.View, HomeContract
 
 
   @NotNull @Override protected HomeContract.Model createModel() {
-    return null;
+    return new HomeModel(this);
   }
 
 }

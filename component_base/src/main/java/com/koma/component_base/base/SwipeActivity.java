@@ -3,6 +3,7 @@ package com.koma.component_base.base;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import com.jude.swipbackhelper.SwipeBackHelper;
+import io.reactivex.observers.ResourceObserver;
 
 /**
  * @author Koma
@@ -20,7 +21,6 @@ public class SwipeActivity extends AppCompatActivity {
         .setSwipeRelateEnable(true)
         .setSwipeRelateOffset(300);
     //ViewServer.get(this).addWindow(this);
-
   }
 
 
