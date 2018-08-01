@@ -44,24 +44,25 @@ android {
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
   }
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
 }
 
 dependencies {
-  implementation fileTree(dir: 'libs', include: ['*.jar'])
+  implementation fileTree(include: ['*.jar'], dir: 'libs')
   testImplementation rootProject.ext.dependencies_other.junit
   androidTestImplementation rootProject.ext.dependencies_other.runner
   androidTestImplementation rootProject.ext.dependencies_other.espresso_core
   //支持kotlin
   api rootProject.ext.android.kotlin
-
   rootProject.ext.dependencies_ui.each { k, v -> api v }
-
   rootProject.ext.component_base.each { k, v -> api v }
   rootProject.ext.component_annotationPocessor.each { k, v -> annotationProcessor v }
   //annotationProcessor rootProject.ext.component_annotationPocessor.arouter_complier
-
   // api rootProject.ext.component_base["utilcode"]
   /*
-  api rootProject.ext.component_base["butterknife"]
-  annotationProcessor rootProject.ext.component_base["butterknife-compiler"]*/
+    api rootProject.ext.component_base["butterknife"]
+    annotationProcessor rootProject.ext.component_base["butterknife-compiler"]*/
 }

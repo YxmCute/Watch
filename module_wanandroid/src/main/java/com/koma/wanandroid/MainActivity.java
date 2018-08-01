@@ -7,6 +7,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity
   private MainFragment mainFragment;
   private KnowledgeFragment knowledgeFragment;
   private MeFragment meFragment;
-  private List<BaseFragment> baseFragmentList = new ArrayList<>();
+  private List<Fragment> baseFragmentList = new ArrayList<>();
   private FragmentManager fragmentManager = getSupportFragmentManager();
 
 
@@ -90,32 +91,6 @@ public class MainActivity extends AppCompatActivity
     }
     bottomNavigationView = findViewById(R.id.bottom_navigation);
     bottomNavigationView.setOnNavigationItemSelectedListener(this);
-    HttpClient client = new HttpClient();
-    ApiConstants apiConstants = Objects.requireNonNull(client.wanandroidRetrofit()).create(ApiConstants.class);
-    apiConstants.getGetBanner().subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Observer<BaseResponse<List<BannerData>>>() {
-          @Override public void onSubscribe(Disposable d) {
-
-          }
-
-
-          @Override public void onNext(BaseResponse<List<BannerData>> listBaseResponse) {
-            List<BannerData> bannerDataList = listBaseResponse.getData();
-            Log.i("timo", bannerDataList.size() + "");
-
-          }
-
-
-          @Override public void onError(Throwable e) {
-
-          }
-
-
-          @Override public void onComplete() {
-
-          }
-        });
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
 
@@ -133,7 +108,7 @@ public class MainActivity extends AppCompatActivity
   private void setSelectIndex(int index) {
     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
     for (int i = 0; i < baseFragmentList.size(); i++) {
-      BaseFragment fragment = baseFragmentList.get(i);
+      Fragment fragment = baseFragmentList.get(i);
 
       if (i == index) {
 
@@ -232,14 +207,12 @@ public class MainActivity extends AppCompatActivity
     } else if (id == R.id.navigation_main) {
       setSelectIndex(0);
 
-      Log.i("timo", "home");
     } else if (id == R.id.navigation_knowledge) {
       setSelectIndex(1);
 
     } else if (id == R.id.navigation_me) {
       setSelectIndex(2);
 
-      Log.i("timo", "navigation_notifications");
     }
 
     if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -252,7 +225,6 @@ public class MainActivity extends AppCompatActivity
 
   @Override protected void onPause() {
     super.onPause();
-    Log.i("timo", "onPause");
 
 
   }
@@ -260,14 +232,12 @@ public class MainActivity extends AppCompatActivity
 
   @Override protected void onRestart() {
     super.onRestart();
-    Log.i("timo", "onRestart");
 
   }
 
 
   @Override protected void onDestroy() {
     super.onDestroy();
-    Log.i("timo", "onDestroy");
   }
 
 

@@ -12,6 +12,8 @@ import com.koma.component_base.bean.w.BannerData;
 import com.koma.component_base.mvp.inter.BaseMvpFragment;
 import com.koma.component_base.net.HttpClient;
 import com.koma.wanandroid.R;
+import com.koma.wanandroid.contract.HomeContract;
+import com.koma.wanandroid.presenter.HomePresenter;
 import java.util.ArrayList;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
@@ -21,40 +23,32 @@ import org.jetbrains.annotations.NotNull;
  * @date 2018/7/20 上午 10:47
  * @des
  */
-public class MainFragment extends BaseMvpFragment<> {
+public class MainFragment extends BaseMvpFragment<HomeContract.View, HomeContract.Presenter> implements HomeContract.View {
   private SwipeRefreshLayout refreshLayout;
 
   private RecyclerView rvMain;
 
   private List<BannerData> bannerDataList = new ArrayList<>();
-  private HttpClient httpClient = new HttpClient();
 
 
-  @Override public void initView(@NotNull View v) {
-    refreshLayout=v.findViewById(R.id.refreshLayout);
-    rvMain=v.findViewById(R.id.recycler_main);
-   // getLifecycle().addObserver(testP);
+  @Override protected void init(View view) {
+    refreshLayout = view.findViewById(R.id.refreshLayout);
+    rvMain = view.findViewById(R.id.recycler_main);
+    presenter.loadBanner();
 
 
   }
 
 
-  @Override public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-    super.onViewCreated(view, savedInstanceState);
-  }
-
-
-  @Override public int getContainerView() {
+  @Override public int setLayoutId() {
     return R.layout.w_fragment_main;
+
   }
-
-
 
 
   @Override public void onDestroy() {
     super.onDestroy();
     Log.i("timo", "FF onDestroy");
-
 
   }
 
@@ -70,5 +64,50 @@ public class MainFragment extends BaseMvpFragment<> {
     super.onDetach();
     Log.i("timo", "FF onDetach");
 
+  }
+
+
+  @Override public void showError(@NotNull String msg, int code) {
+
+  }
+
+
+  @Override public void showDialog() {
+
+  }
+
+
+  @Override public void closeDialog() {
+
+  }
+
+
+  @Override public void showEmptyView() {
+
+  }
+
+
+  @Override public void showLoading() {
+
+  }
+
+
+  @Override public void showNormal() {
+
+  }
+
+
+  @Override public void showError() {
+
+  }
+
+
+  @NotNull @Override public HomeContract.View createView() {
+    return this;
+  }
+
+
+  @NotNull @Override public HomePresenter createPresenter() {
+    return new HomePresenter();
   }
 }

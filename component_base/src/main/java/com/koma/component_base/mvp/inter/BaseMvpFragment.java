@@ -16,8 +16,8 @@ import org.jetbrains.annotations.NotNull;
  * @des
  */
 public abstract class BaseMvpFragment<V extends IView, P extends IPresenter<V>> extends Fragment implements IView, MvpCallback<V, P> {
-  private V view;
-  private P presenter;
+  protected V view;
+  protected P presenter;
 
 
   @Override public void onAttach(Context context) {
@@ -26,7 +26,7 @@ public abstract class BaseMvpFragment<V extends IView, P extends IPresenter<V>> 
 
 
   @Nullable @Override public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-    View view = inflater.inflate(getLayoutId(), container, false);
+    View view = inflater.inflate(setLayoutId(), container, false);
     init();
     return view;
   }
@@ -50,12 +50,19 @@ public abstract class BaseMvpFragment<V extends IView, P extends IPresenter<V>> 
   }
 
 
-  protected abstract void init(View view);
+  /**
+   * 返回layout布局ID
+   *
+   * @return id
+   */
+  public abstract int setLayoutId();
 
   /**
-   * @return
+   * 初始化布局参数
+   *
+   * @param view
    */
-  public abstract int getLayoutId();
+  protected abstract void init(View view);
 
 
   @Override public void setMvpView(@NotNull V v) {

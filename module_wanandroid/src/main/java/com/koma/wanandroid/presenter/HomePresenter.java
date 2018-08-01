@@ -6,6 +6,8 @@ import android.database.Observable;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import com.koma.component_base.base.BaseObserver;
 import com.koma.component_base.base.BaseResponse;
 import com.koma.component_base.bean.w.BannerData;
@@ -34,17 +36,24 @@ import org.jetbrains.annotations.NotNull;
 public class HomePresenter extends BasePresenter<HomeContract.View, HomeContract.Model> implements HomeContract.Presenter {
   private List<ArticleBean> articleBeanList;
   private Banner banner;
+  private RecyclerView mRecyclerView;
+
 
 
   public HomePresenter() {
     super();
   }
+  public HomePresenter(RecyclerView recyclerView){
+    this.mRecyclerView=recyclerView;
+    //initRecycleView();
+  }
 
 
-  private void initBanner(List<BannerData> bannerData) {
+  private void  initBanner(List<BannerData> bannerData) {
     if (bannerData == null || bannerData.size() == 0) {
       return;
     }
+
     List<String> titleList = new ArrayList<>();
     List<String> imgList = new ArrayList<>();
     List<String> urlList = new ArrayList<>();
@@ -89,6 +98,7 @@ public class HomePresenter extends BasePresenter<HomeContract.View, HomeContract
         .subscribeWith(new BaseObserver<BaseResponse<List<BannerData>>>() {
                          @Override public void onNext(BaseResponse<List<BannerData>> listBaseResponse) {
                            List<BannerData> bannerData = listBaseResponse.getData();
+                           Log.i("hhhh", bannerData.size()+"");
                            initBanner(bannerData);
                          }
 
