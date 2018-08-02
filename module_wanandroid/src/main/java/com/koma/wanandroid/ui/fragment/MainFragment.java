@@ -5,7 +5,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import com.koma.component_base.base.BaseFragment;
 import com.koma.component_base.bean.w.BannerData;
@@ -35,6 +37,14 @@ public class MainFragment extends BaseMvpFragment<HomeContract.View, HomeContrac
     refreshLayout = view.findViewById(R.id.refreshLayout);
     rvMain = view.findViewById(R.id.recycler_main);
     presenter.loadBanner();
+    DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
+    float density = displayMetrics.density;
+    int dpi = displayMetrics.densityDpi;
+    float scale = displayMetrics.scaledDensity;
+    int widthPixels = displayMetrics.widthPixels;
+    int heightPixels = displayMetrics.heightPixels;
+    Log.i("timo", " density= " + density + " dpi= " + dpi + " scale= " + scale);
+    Log.i("timo", " widthPixels= " + widthPixels + " heightPixels= "  + heightPixels);
 
 
   }
