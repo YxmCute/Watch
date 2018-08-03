@@ -24,5 +24,5 @@ public interface ApiService {
   //页码，拼接在连接中，从0开始。
 
   @GET("article/list/{page}/json")
-  Observable<BaseResponse<ArticleBean>> getArticleData(@Path("page") int page);
+  Observable<BaseResponse<ArticleBean.DataBean>> getArticleData(@Path("page") int page);
 }

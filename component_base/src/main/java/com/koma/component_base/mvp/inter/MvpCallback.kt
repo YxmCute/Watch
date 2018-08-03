@@ -7,14 +7,14 @@ package com.koma.component_base.mvp.inter
  */
 interface MvpCallback<V : IView, P : IPresenter<V>> {
   //创建view
-  fun createView(): V
+  fun createView(): V?
 
-  fun getMvpView(): V
+  fun getMvpView(): V?
 
   //创建presenter
-  fun createPresenter(): P
+  fun createPresenter(): P?
 
-  fun getPresenter(): P
+  fun getPresenter(): P?
 
 
   fun setPresenter(p: P)

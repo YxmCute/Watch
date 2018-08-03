@@ -30,13 +30,10 @@ public class MainFragment extends BaseMvpFragment<HomeContract.View, HomeContrac
 
   private RecyclerView rvMain;
 
-  private List<BannerData> bannerDataList = new ArrayList<>();
 
-
-  @Override protected void init(View view) {
+  @Override protected void initView(View view) {
     refreshLayout = view.findViewById(R.id.refreshLayout);
     rvMain = view.findViewById(R.id.recycler_main);
-    presenter.loadBanner();
     DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
     float density = displayMetrics.density;
     int dpi = displayMetrics.densityDpi;
@@ -44,14 +41,20 @@ public class MainFragment extends BaseMvpFragment<HomeContract.View, HomeContrac
     int widthPixels = displayMetrics.widthPixels;
     int heightPixels = displayMetrics.heightPixels;
     Log.i("timo", " density= " + density + " dpi= " + dpi + " scale= " + scale);
-    Log.i("timo", " widthPixels= " + widthPixels + " heightPixels= "  + heightPixels);
-
+    Log.i("timo", " widthPixels= " + widthPixels + " heightPixels= " + heightPixels);
 
   }
 
 
   @Override public int setLayoutId() {
     return R.layout.w_fragment_main;
+
+  }
+
+
+  @Override protected void initData(View view) {
+    presenter.loadBanner();
+    presenter.getArticleList(false, null, 0);
 
   }
 
@@ -118,6 +121,6 @@ public class MainFragment extends BaseMvpFragment<HomeContract.View, HomeContrac
 
 
   @NotNull @Override public HomePresenter createPresenter() {
-    return new HomePresenter();
+    return new HomePresenter(getActivity(), rvMain);
   }
 }

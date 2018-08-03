@@ -27,14 +27,20 @@ public abstract class BaseMvpFragment<V extends IView, P extends IPresenter<V>> 
 
   @Nullable @Override public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
     View view = inflater.inflate(setLayoutId(), container, false);
+    initView(view);
     init();
     return view;
   }
 
 
+  protected abstract void initView(View view);
+
+
+
+
   private void init() {
     view = createView();
-    if (presenter == null) {
+    if (getPresenter() == null) {
       presenter = createPresenter();
       getLifecycle().addObserver(presenter);
 
@@ -46,7 +52,8 @@ public abstract class BaseMvpFragment<V extends IView, P extends IPresenter<V>> 
 
   @Override public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    init(view);
+    initData(view);
+
   }
 
 
@@ -62,7 +69,7 @@ public abstract class BaseMvpFragment<V extends IView, P extends IPresenter<V>> 
    *
    * @param view
    */
-  protected abstract void init(View view);
+  protected abstract void initData(View view);
 
 
   @Override public void setMvpView(@NotNull V v) {
@@ -75,7 +82,7 @@ public abstract class BaseMvpFragment<V extends IView, P extends IPresenter<V>> 
   }
 
 
-  @NotNull @Override public P getPresenter() {
+  @Override public P getPresenter() {
     return this.presenter;
   }
 

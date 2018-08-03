@@ -34,7 +34,7 @@ interface HomeContract {
 
 
 
-    fun getArticleListData(page: Int):Observable<BaseResponse<ArticleBean>>
+    fun getArticleListData(page: Int): Observable<BaseResponse<ArticleBean.DataBean>>
 
   }
 }

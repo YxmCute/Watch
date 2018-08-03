@@ -15,8 +15,8 @@ import io.reactivex.disposables.Disposable
  */
 abstract class BasePresenter<V : IView, M : IModel> {
   open lateinit var view: V
-   lateinit var model: M
-  protected set
+  lateinit var model: M
+    protected set
 
 
   private var compositeDisposable: CompositeDisposable? = null
@@ -30,7 +30,8 @@ abstract class BasePresenter<V : IView, M : IModel> {
   @CallSuper
   open fun attachView(v: V) {
     this.view = v
-    model=createModel()
+
+    model = createModel()
   }
 
   @CallSuper

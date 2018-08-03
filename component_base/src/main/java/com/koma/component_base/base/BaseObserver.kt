@@ -8,11 +8,16 @@ import io.reactivex.observers.ResourceObserver
  * @des
  */
 abstract class BaseObserver<T> : ResourceObserver<T>() {
+
+
+  override fun onStart() {
+    super.onStart()
+  }
+
   override fun onComplete() {
-    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
   }
 
   override fun onError(e: Throwable) {
-    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    onComplete()
   }
 }
