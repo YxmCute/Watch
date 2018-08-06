@@ -29,9 +29,10 @@ public class MainFragment extends BaseMvpFragment<HomeContract.View, HomeContrac
   private SwipeRefreshLayout refreshLayout;
 
   private RecyclerView rvMain;
+  private Bundle bundle;
 
 
-  @Override protected void initView(View view) {
+  @Override protected void initView(View view, Bundle bundle) {
     refreshLayout = view.findViewById(R.id.refreshLayout);
     rvMain = view.findViewById(R.id.recycler_main);
     DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
@@ -52,10 +53,19 @@ public class MainFragment extends BaseMvpFragment<HomeContract.View, HomeContrac
   }
 
 
-  @Override protected void initData(View view) {
+  @Override protected void initData(View view, Bundle savedInstanceState) {
+    if (savedInstanceState != null) {
+      bundle = savedInstanceState;
+    }
     presenter.loadBanner();
     presenter.getArticleList(false, null, 0);
 
+  }
+
+
+  @Override public void onSaveInstanceState(@NonNull Bundle outState) {
+    super.onSaveInstanceState(outState);
+    presenter.saveInstanceState(outState);
   }
 
 
@@ -121,6 +131,6 @@ public class MainFragment extends BaseMvpFragment<HomeContract.View, HomeContrac
 
 
   @NotNull @Override public HomePresenter createPresenter() {
-    return new HomePresenter(getActivity(), rvMain);
+    return new HomePresenter(getActivity(), rvMain, bundle);
   }
 }

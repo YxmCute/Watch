@@ -27,13 +27,13 @@ public abstract class BaseMvpFragment<V extends IView, P extends IPresenter<V>> 
 
   @Nullable @Override public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
     View view = inflater.inflate(setLayoutId(), container, false);
-    initView(view);
+    initView(view,savedInstanceState);
     init();
     return view;
   }
 
 
-  protected abstract void initView(View view);
+  protected abstract void initView(View view,Bundle savedInstanceState);
 
 
 
@@ -52,7 +52,7 @@ public abstract class BaseMvpFragment<V extends IView, P extends IPresenter<V>> 
 
   @Override public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    initData(view);
+    initData(view,savedInstanceState);
 
   }
 
@@ -69,7 +69,7 @@ public abstract class BaseMvpFragment<V extends IView, P extends IPresenter<V>> 
    *
    * @param view
    */
-  protected abstract void initData(View view);
+  protected abstract void initData(View view,Bundle savedInstanceState);
 
 
   @Override public void setMvpView(@NotNull V v) {

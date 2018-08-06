@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     setContentView(R.layout.wanandroid_activity_main);
-
     if (fragmentManager.findFragmentByTag("main") == null) {
       mainFragment = new MainFragment();
       baseFragmentList.add(mainFragment);
