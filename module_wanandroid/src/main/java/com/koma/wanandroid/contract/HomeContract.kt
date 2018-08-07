@@ -28,7 +28,7 @@ interface HomeContract {
     fun stopBanner()
     fun saveInstanceState(bundle: Bundle)
 
-    fun getArticleList(isRefresh: Boolean, refreshLayout: SwipeRefreshLayout, page: Int)
+    fun getArticleList(isRefresh: Boolean, refreshLayout: SwipeRefreshLayout?, page: Int)
   }
 
 

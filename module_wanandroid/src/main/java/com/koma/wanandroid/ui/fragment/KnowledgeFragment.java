@@ -22,6 +22,7 @@ public class KnowledgeFragment extends BaseFragment {
 
 
   @Override public void initView(@NotNull View v) {
+    //getActivity().findViewById(R.id.toolbar).setVisibility(View.GONE);
 
   }
 

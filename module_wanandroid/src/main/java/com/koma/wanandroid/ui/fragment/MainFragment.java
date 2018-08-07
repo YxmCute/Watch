@@ -3,12 +3,14 @@ package com.koma.wanandroid.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
+import com.blankj.utilcode.util.ToastUtils;
 import com.koma.component_base.base.BaseFragment;
 import com.koma.component_base.bean.w.BannerData;
 import com.koma.component_base.mvp.inter.BaseMvpFragment;
@@ -18,6 +20,7 @@ import com.koma.wanandroid.contract.HomeContract;
 import com.koma.wanandroid.presenter.HomePresenter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -25,16 +28,19 @@ import org.jetbrains.annotations.NotNull;
  * @date 2018/7/20 上午 10:47
  * @des
  */
-public class MainFragment extends BaseMvpFragment<HomeContract.View, HomeContract.Presenter> implements HomeContract.View {
+public class MainFragment extends BaseMvpFragment<HomeContract.View, HomeContract.Presenter> implements HomeContract.View, SwipeRefreshLayout.OnRefreshListener {
   private SwipeRefreshLayout refreshLayout;
 
   private RecyclerView rvMain;
   private Bundle bundle;
+  private int page=0;
 
 
   @Override protected void initView(View view, Bundle bundle) {
     refreshLayout = view.findViewById(R.id.refreshLayout);
     rvMain = view.findViewById(R.id.recycler_main);
+    refreshLayout.setColorSchemeResources(R.color.red, R.color.actionBar);
+    refreshLayout.setOnRefreshListener(this);
     DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
     float density = displayMetrics.density;
     int dpi = displayMetrics.densityDpi;
@@ -57,15 +63,20 @@ public class MainFragment extends BaseMvpFragment<HomeContract.View, HomeContrac
     if (savedInstanceState != null) {
       bundle = savedInstanceState;
     }
-    presenter.loadBanner();
-    presenter.getArticleList(false, null, 0);
+
+    refreshLayout.post(new Runnable() {
+      @Override public void run() {
+        refreshLayout.setRefreshing(true);
+        onRefresh();
+      }
+    });
 
   }
 
 
   @Override public void onSaveInstanceState(@NonNull Bundle outState) {
     super.onSaveInstanceState(outState);
-    presenter.saveInstanceState(outState);
+    //presenter.saveInstanceState(outState);
   }
 
 
@@ -116,12 +127,12 @@ public class MainFragment extends BaseMvpFragment<HomeContract.View, HomeContrac
 
 
   @Override public void showNormal() {
+    ToastUtils.showShort("刷新成功...");
 
   }
 
 
   @Override public void showError() {
-
   }
 
 
@@ -131,6 +142,15 @@ public class MainFragment extends BaseMvpFragment<HomeContract.View, HomeContrac
 
 
   @NotNull @Override public HomePresenter createPresenter() {
-    return new HomePresenter(getActivity(), rvMain, bundle);
+    return new HomePresenter(getActivity(), rvMain, bundle,page);
+  }
+
+
+  @Override public void onRefresh() {
+    if (presenter!=null){
+      presenter.loadBanner();
+      presenter.getArticleList(false, refreshLayout, 0);
+    }
+
   }
 }

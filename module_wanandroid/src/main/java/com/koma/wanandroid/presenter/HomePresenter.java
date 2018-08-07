@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import com.blankj.utilcode.util.SizeUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.koma.component_base.base.BaseObserver;
 import com.koma.component_base.base.BaseResponse;
 import com.koma.component_base.bean.w.BannerData;
@@ -55,21 +56,32 @@ public class HomePresenter extends BasePresenter<HomeContract.View, HomeContract
   private Banner banner;
   private RecyclerView mRecyclerView;
   private Context mActivity;
+  private int mPage;
 
 
-  public HomePresenter(Context context, RecyclerView recyclerView, Bundle bundle) {
+  public HomePresenter(Context context, RecyclerView recyclerView, Bundle bundle, int page) {
     this.mActivity = context;
     this.mRecyclerView = recyclerView;
+    this.mPage = page;
     initRecycleView(bundle);
   }
 
 
   private void initRecycleView(Bundle bundle) {
-    if (bundle != null) {
-      articleBeanList = bundle.getParcelableArrayList("article");
-      bannerDataList=bundle.getParcelableArrayList("banner");
-    }
+
     mAdapter = new ArticleAdapter(R.layout.w_item_article, articleBeanList);
+    mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+      @Override public void onLoadMoreRequested() {
+        mRecyclerView.postDelayed(new Runnable() {
+          @Override public void run() {
+            mPage++;
+            getArticleList(true, null, mPage);
+            //mAdapter.loadMoreEnd();
+          }
+        }, 2000);
+
+      }
+    }, mRecyclerView);
     mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
     //mRecyclerView.addItemDecoration(new SpacesItemDecoration(SizeUtils.dp2px(2),SizeUtils.dp2px(6)));
     mRecyclerView.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.VERTICAL));
@@ -118,29 +130,30 @@ public class HomePresenter extends BasePresenter<HomeContract.View, HomeContract
 
 
   @Override public void loadBanner() {
-    if (bannerDataList.size() == 0) {
-      addDisposable(model.getBannerData()
-          /* .doOnSubscribe(disposable ->
-           {
 
-           })*/
+    addDisposable(model.getBannerData()
+        /* .doOnSubscribe(disposable ->
+         {
 
-          .subscribeOn(AndroidSchedulers.mainThread())
-          /* .doFinally(() -> {*//*view.closeDialog()*//*})*/
-          .subscribeWith(new BaseObserver<BaseResponse<List<BannerData>>>() {
-                           @Override public void onNext(BaseResponse<List<BannerData>> listBaseResponse) {
-                             List<BannerData> bannerData = listBaseResponse.getData();
-                             Log.i("hhhh", bannerData.size() + "");
-                             bannerDataList = bannerData;
-                             initBanner(bannerDataList);
-                           }
+         })*/
+
+        .subscribeOn(AndroidSchedulers.mainThread())
+        /* .doFinally(() -> {*//*view.closeDialog()*//*})*/
+        .subscribeWith(new BaseObserver<BaseResponse<List<BannerData>>>() {
+                         @Override public void onNext(BaseResponse<List<BannerData>> listBaseResponse) {
+                           List<BannerData> bannerData = listBaseResponse.getData();
+                           Log.i("hhhh", bannerData.size() + "");
+                           bannerDataList = bannerData;
+                           initBanner(bannerDataList);
+                         }
+
+
+                         @Override public void onError(@NotNull Throwable e) {
+                           super.onError(e);
 
                          }
-          ));
-
-    } else {
-      initBanner(bannerDataList);
-    }
+                       }
+        ));
 
   }
 
@@ -160,17 +173,48 @@ public class HomePresenter extends BasePresenter<HomeContract.View, HomeContract
   }
 
 
-  @Override public void getArticleList(boolean isRefresh, @NotNull SwipeRefreshLayout refreshLayout, int page) {
-    if (articleBeanList.size() == 0) {
-      addDisposable(model.getArticleListData(page).compose(RxUtil.rxSchedulerHelper())
-          .subscribeWith(new BaseObserver<BaseResponse<ArticleBean.DataBean>>() {
+  @Override public void getArticleList(boolean isRefresh, SwipeRefreshLayout refreshLayout, int page) {
 
-            @Override public void onNext(BaseResponse<ArticleBean.DataBean> datas) {
+    addDisposable(model.getArticleListData(page).compose(RxUtil.rxSchedulerHelper())
+        .subscribeWith(new BaseObserver<BaseResponse<ArticleBean.DataBean>>() {
 
+          @Override public void onNext(BaseResponse<ArticleBean.DataBean> datas) {
+             /* if (true){
+
+              }*/
+            if (refreshLayout != null) {
+              view.showNormal();
+              refreshLayout.setRefreshing(false);
+            }
+            if (!isRefresh) {
+              mAdapter.setNewData(datas.getData().getDatas());
+            } else {
               mAdapter.addData(datas.getData().getDatas());
             }
-          }));
-    }
+          }
+
+
+          @Override public void onComplete() {
+            super.onComplete();
+            if (isRefresh) {
+              mAdapter.loadMoreComplete();
+            } else {
+              if (refreshLayout != null) {refreshLayout.setRefreshing(false);}
+
+            }
+          }
+
+
+          @Override public void onError(@NotNull Throwable e) {
+            super.onError(e);
+            if (isRefresh) {
+              mAdapter.loadMoreFail();
+            } else {
+              if (refreshLayout != null) {refreshLayout.setRefreshing(false);}
+
+            }
+          }
+        }));
   }
 
 
@@ -180,12 +224,12 @@ public class HomePresenter extends BasePresenter<HomeContract.View, HomeContract
 
 
   @Override public void saveInstanceState(@NotNull Bundle bundle) {
-    if (bannerDataList.size() != 0) {
+   /* if (bannerDataList.size() != 0) {
       bundle.putParcelableArrayList("banner", (ArrayList<? extends Parcelable>) bannerDataList);
     }
     if (articleBeanList.size() != 0) {
       bundle.putParcelableArrayList("article", (ArrayList<? extends Parcelable>) articleBeanList);
 
-    }
+    }*/
   }
 }
