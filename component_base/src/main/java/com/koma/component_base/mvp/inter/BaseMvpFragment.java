@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.gyf.barlibrary.ImmersionBar;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -18,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
 public abstract class BaseMvpFragment<V extends IView, P extends IPresenter<V>> extends Fragment implements IView, MvpCallback<V, P> {
   protected V view;
   protected P presenter;
+  protected ImmersionBar mImmersionBar;
 
 
   @Override public void onAttach(Context context) {
@@ -53,6 +55,8 @@ public abstract class BaseMvpFragment<V extends IView, P extends IPresenter<V>> 
   @Override public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     initData(view,savedInstanceState);
+    mImmersionBar = ImmersionBar.with(this);
+    mImmersionBar.keyboardEnable(true).navigationBarWithKitkatEnable(false).init();
 
   }
 

@@ -1,6 +1,8 @@
 package com.koma.wanandroid;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.design.widget.BottomNavigationView;
@@ -19,13 +21,17 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.gson.Gson;
+import com.gyf.barlibrary.ImmersionBar;
 import com.koma.component_base.base.BaseFragment;
 import com.koma.component_base.base.BaseResponse;
 import com.koma.component_base.bean.w.BannerData;
 import com.koma.component_base.net.ApiConstants;
 import com.koma.component_base.net.HttpClient;
+import com.koma.wanandroid.contract.HomeContract;
 import com.koma.wanandroid.ui.fragment.KnowledgeFragment;
 import com.koma.wanandroid.ui.fragment.MainFragment;
 import com.koma.wanandroid.ui.fragment.MeFragment;
@@ -44,6 +50,7 @@ public class MainActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener {
   private BottomNavigationView bottomNavigationView;
   private DrawerLayout drawer;
+  private Toolbar mToolbar;
   private MainFragment mainFragment;
   private KnowledgeFragment knowledgeFragment;
   private MeFragment meFragment;
@@ -60,8 +67,60 @@ public class MainActivity extends AppCompatActivity
     } else {
       Log.i("timo", "onCreate");
     }
+    /*if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      Window window = this.getWindow();
+      window.clearFlags(
+          WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+              | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+      window.getDecorView().setSystemUiVisibility(
+          View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+              //                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION  //不隐藏和透明虚拟导航栏  因为会遮盖底部的布局
+              | View.SYSTEM_UI_FLAG_LAYOUT_STABLE//保持布局状态
+      );
+      window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+      window.setStatusBarColor(Color.TRANSPARENT);
+      //            window.setNavigationBarColor(Color.TRANSPARENT);//不隐藏和透明虚拟导航栏  因为会遮盖底部的布局
+
+    }*/
+   /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+    }*/
+   /* View decorView=getWindow().getDecorView();
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+      decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN|View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+    }
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      getWindow().setStatusBarColor(Color.TRANSPARENT);
+    }*/
+    /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      Window window = this.getWindow();
+
+      window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+      window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+          | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+      window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+      window.setStatusBarColor(Color.TRANSPARENT);
+
+    }
+*/
+    ImmersionBar.with(this).transparentBar().init();
 
     setContentView(R.layout.wanandroid_activity_main);
+
+    bottomNavigationView = findViewById(R.id.bottom_navigation);
+    bottomNavigationView.setOnNavigationItemSelectedListener(this);
+    mToolbar = (Toolbar) findViewById(R.id.toolbar);
+    setSupportActionBar(mToolbar);
+    //mToolbar.hideOverflowMenu();
+
+    drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+    ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        this, drawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+    drawer.addDrawerListener(toggle);
+    toggle.syncState();
+
+    NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+    navigationView.setNavigationItemSelectedListener(this);
     if (fragmentManager.findFragmentByTag("main") == null) {
       mainFragment = new MainFragment();
       baseFragmentList.add(mainFragment);
@@ -88,23 +147,17 @@ public class MainActivity extends AppCompatActivity
     if (savedInstanceState == null) {
       setSelectIndex(0);
     }
-    bottomNavigationView = findViewById(R.id.bottom_navigation);
-    bottomNavigationView.setOnNavigationItemSelectedListener(this);
-    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-    setSupportActionBar(toolbar);
 
-    drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-    ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-        this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-    drawer.addDrawerListener(toggle);
-    toggle.syncState();
-
-    NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-    navigationView.setNavigationItemSelectedListener(this);
   }
 
 
   private void setSelectIndex(int index) {
+    if (index == 0) {
+      mToolbar.setVisibility(View.GONE);
+    } else {
+      mToolbar.setVisibility(View.GONE);
+
+    }
     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
     for (int i = 0; i < baseFragmentList.size(); i++) {
       Fragment fragment = baseFragmentList.get(i);
@@ -207,9 +260,11 @@ public class MainActivity extends AppCompatActivity
       setSelectIndex(0);
 
     } else if (id == R.id.navigation_knowledge) {
+
       setSelectIndex(1);
 
     } else if (id == R.id.navigation_me) {
+
       setSelectIndex(2);
 
     }
@@ -224,7 +279,6 @@ public class MainActivity extends AppCompatActivity
 
   @Override protected void onPause() {
     super.onPause();
-
 
   }
 
