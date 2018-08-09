@@ -55,8 +55,8 @@ public abstract class BaseMvpFragment<V extends IView, P extends IPresenter<V>> 
   @Override public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     initData(view,savedInstanceState);
-    mImmersionBar = ImmersionBar.with(this);
-    mImmersionBar.keyboardEnable(true).navigationBarWithKitkatEnable(false).init();
+   // mImmersionBar = ImmersionBar.with(this);
+   // mImmersionBar.keyboardEnable(true).navigationBarWithKitkatEnable(false).init();
 
   }
 

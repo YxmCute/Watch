@@ -1,5 +1,6 @@
 package com.koma.wanandroid.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,6 +11,8 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.WindowManager;
+import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.koma.component_base.base.BaseFragment;
 import com.koma.component_base.bean.w.BannerData;
@@ -41,7 +44,9 @@ public class MainFragment extends BaseMvpFragment<HomeContract.View, HomeContrac
     rvMain = view.findViewById(R.id.recycler_main);
     refreshLayout.setColorSchemeResources(R.color.red, R.color.actionBar);
     refreshLayout.setOnRefreshListener(this);
-    DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
+    DisplayMetrics displayMetrics = new DisplayMetrics();
+    WindowManager windowManager= (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
+    windowManager.getDefaultDisplay().getMetrics(displayMetrics);
     float density = displayMetrics.density;
     int dpi = displayMetrics.densityDpi;
     float scale = displayMetrics.scaledDensity;
@@ -49,6 +54,8 @@ public class MainFragment extends BaseMvpFragment<HomeContract.View, HomeContrac
     int heightPixels = displayMetrics.heightPixels;
     Log.i("timo", " density= " + density + " dpi= " + dpi + " scale= " + scale);
     Log.i("timo", " widthPixels= " + widthPixels + " heightPixels= " + heightPixels);
+    Log.i("timo", " width= " + ScreenUtils.getScreenWidth() + " height= " + ScreenUtils.getScreenHeight());
+
 
   }
 

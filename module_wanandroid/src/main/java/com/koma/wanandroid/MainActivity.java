@@ -1,6 +1,8 @@
 package com.koma.wanandroid;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -24,6 +27,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.blankj.utilcode.util.Utils;
 import com.google.gson.Gson;
 import com.gyf.barlibrary.ImmersionBar;
 import com.koma.component_base.base.BaseFragment;
@@ -56,6 +60,7 @@ public class MainActivity extends AppCompatActivity
   private MeFragment meFragment;
   private List<Fragment> baseFragmentList = new ArrayList<>();
   private FragmentManager fragmentManager = getSupportFragmentManager();
+  private Window  window;
 
 
   @Override
@@ -101,11 +106,23 @@ public class MainActivity extends AppCompatActivity
       window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
       window.setStatusBarColor(Color.TRANSPARENT);
 
+    }*/
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      window = getWindow();
+      window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+      window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+          | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+      }
+      window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+      window.setStatusBarColor(ContextCompat.getColor(this, R.color.actionBar));
+
     }
-*/
-    ImmersionBar.with(this).transparentBar().init();
 
     setContentView(R.layout.wanandroid_activity_main);
+    //ImmersionBar.with(this).transparentBar().init();
 
     bottomNavigationView = findViewById(R.id.bottom_navigation);
     bottomNavigationView.setOnNavigationItemSelectedListener(this);
@@ -147,16 +164,50 @@ public class MainActivity extends AppCompatActivity
     if (savedInstanceState == null) {
       setSelectIndex(0);
     }
+    Log.i("timo", "height:" + getStatusBarHeight());
+    getDaoHangHeight(this);
+  }
 
+
+  private int getStatusBarHeight() {
+    Resources resources = getResources();
+    int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
+    return resources.getDimensionPixelSize(resourceId);
+  }
+
+
+  public int getDaoHangHeight(Context context) {
+    int result = 0;
+    int resourceId = 0;
+    int rid = context.getResources().getIdentifier("config_showNavigationBar", "bool", "android");
+    if (rid != 0) {
+      resourceId = context.getResources().getIdentifier("navigation_bar_height", "dimen", "android");
+      Log.i("timo", "高度：" + resourceId);
+      Log.i("timo", "高度：" + context.getResources().getDimensionPixelSize(resourceId) + "");
+      return context.getResources().getDimensionPixelSize(resourceId);
+    } else {
+      return 0;
+    }
   }
 
 
   private void setSelectIndex(int index) {
     if (index == 0) {
+      mToolbar.setVisibility(View.VISIBLE);
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.actionBar));
+      }
+    } else if (index==1){
       mToolbar.setVisibility(View.GONE);
-    } else {
-      mToolbar.setVisibility(View.GONE);
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+      }
 
+    }else {
+      mToolbar.setVisibility(View.GONE);
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.colorAccent));
+      }
     }
     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
     for (int i = 0; i < baseFragmentList.size(); i++) {
