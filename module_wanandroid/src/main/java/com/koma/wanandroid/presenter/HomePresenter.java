@@ -13,8 +13,10 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.blankj.utilcode.util.SizeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.koma.component_base.base.BaseObserver;
@@ -89,6 +91,14 @@ public class HomePresenter extends BasePresenter<HomeContract.View, HomeContract
     banner = new Banner(mActivity);
     banner.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, SizeUtils.dp2px(200)));
     mAdapter.addHeaderView(banner);
+    mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+      @Override public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        ARouter.getInstance().build("/article/detail")
+            .withString("title", mAdapter.getItem(position).getTitle())
+            .withString("link", mAdapter.getItem(position).getLink())
+            .navigation();
+      }
+    });
   }
 
 

@@ -74,7 +74,7 @@ dependencies {
   implementation fileTree(include: ['*.jar'], dir: 'libs')
 
   implementation project(':component_base')
-  //annotationProcessor rootProject.ext.component_annotationPocessor.arouter_complier
+  annotationProcessor rootProject.ext.component_annotationPocessor.arouter_complier
 
 
   //implementation rootProject.ext.component_base["butterknife"]

@@ -17,5 +17,9 @@
 
     <style name="WAppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="WAppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="WAppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+       <!-- <item name="colorControlNormal">@color/statusBar</item>-->
+
+    </style>
+
 </resources>
