@@ -6,7 +6,7 @@ ext {
   module_zhihu = false
   module_gank = false
   module_weather = false
-  kotlin_version = '1.2.30'
+  kotlin_version = '1.2.50'
 
   android = [compileSdkVersion: 28,
              kotlin           : "org.jetbrains.kotlin:kotlin-stdlib-jre7:${kotlin_version}"]

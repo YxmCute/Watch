@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.koma.component_base.base.BaseFragment;
+import com.koma.component_base.mvp.inter.BaseMvpFragment;
 import com.koma.wanandroid.R;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
  * @date 2018/7/20 上午 11:11
  * @des
  */
-public class KnowledgeFragment extends BaseFragment {
+public class KnowledgeFragment extends BaseMvpFragment<> {
 
 
 

@@ -27,11 +27,11 @@
             android:layout_height="wrap_content" />
     </android.support.design.widget.AppBarLayout>
 
-    <com.koma.component_base.widget.ProgressBarWebView
+    <com.koma.wanandroid.ui.widget.MyWebView
         android:id="@+id/wbv_article"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-    </com.koma.component_base.widget.ProgressBarWebView>
+    </com.koma.wanandroid.ui.widget.MyWebView>
 
 </android.support.design.widget.CoordinatorLayout>

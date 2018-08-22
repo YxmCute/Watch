@@ -29,15 +29,19 @@ public abstract class BaseMvpFragment<V extends IView, P extends IPresenter<V>> 
 
   @Nullable @Override public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
     View view = inflater.inflate(setLayoutId(), container, false);
-    initView(view,savedInstanceState);
+    initView(view, savedInstanceState);
     init();
     return view;
   }
 
 
-  protected abstract void initView(View view,Bundle savedInstanceState);
-
-
+  /**
+   * 初始化布局
+   *
+   * @param view
+   * @param savedInstanceState
+   */
+  protected abstract void initView(View view, Bundle savedInstanceState);
 
 
   private void init() {
@@ -54,9 +58,9 @@ public abstract class BaseMvpFragment<V extends IView, P extends IPresenter<V>> 
 
   @Override public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    initData(view,savedInstanceState);
-   // mImmersionBar = ImmersionBar.with(this);
-   // mImmersionBar.keyboardEnable(true).navigationBarWithKitkatEnable(false).init();
+    initData(view, savedInstanceState);
+    // mImmersionBar = ImmersionBar.with(this);
+    // mImmersionBar.keyboardEnable(true).navigationBarWithKitkatEnable(false).init();
 
   }
 
@@ -69,11 +73,12 @@ public abstract class BaseMvpFragment<V extends IView, P extends IPresenter<V>> 
   public abstract int setLayoutId();
 
   /**
-   * 初始化布局参数
+   * 初始化参数
    *
    * @param view
+   * @param savedInstanceState
    */
-  protected abstract void initData(View view,Bundle savedInstanceState);
+  protected abstract void initData(View view, Bundle savedInstanceState);
 
 
   @Override public void setMvpView(@NotNull V v) {

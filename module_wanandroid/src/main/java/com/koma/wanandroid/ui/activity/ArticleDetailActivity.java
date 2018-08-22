@@ -12,8 +12,9 @@ import android.webkit.WebView;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.koma.component_base.widget.ProgressBarWebView;
 import com.koma.wanandroid.R;
+import com.koma.wanandroid.ui.widget.MyWebView;
+import com.koma.wanandroid.ui.widget.ProgressBarWebView;
 
 /**
  * @author Koma
@@ -25,7 +26,7 @@ public class ArticleDetailActivity extends AppCompatActivity {
   private static final String TAG = "ArticleDetailActivity";
 
   private Toolbar mToolBar;
-  private ProgressBarWebView mWebView;
+  private MyWebView mWebView;
 
   @Autowired
   String title;

@@ -3,6 +3,7 @@ package com.koma.wanandroid.api;
 import com.koma.component_base.base.BaseResponse;
 import com.koma.component_base.bean.w.BannerData;
 import com.koma.wanandroid.bean.ArticleBean;
+import com.koma.wanandroid.bean.KnowledgeBean;
 import io.reactivex.Observable;
 import java.util.List;
 import retrofit2.http.GET;
@@ -25,4 +26,8 @@ public interface ApiService {
 
   @GET("article/list/{page}/json")
   Observable<BaseResponse<ArticleBean.DataBean>> getArticleData(@Path("page") int page);
+
+  @GET("tree/json")
+  Observable<BaseResponse<KnowledgeBean>> getKnowledgeData();
+
 }
