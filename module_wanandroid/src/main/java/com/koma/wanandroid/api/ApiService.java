@@ -28,6 +28,6 @@ public interface ApiService {
   Observable<BaseResponse<ArticleBean.DataBean>> getArticleData(@Path("page") int page);
 
   @GET("tree/json")
-  Observable<BaseResponse<KnowledgeBean>> getKnowledgeData();
+  Observable<BaseResponse<List<KnowledgeBean>>>getKnowledgeData();
 
 }

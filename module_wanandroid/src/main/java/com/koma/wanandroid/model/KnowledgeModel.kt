@@ -17,7 +17,7 @@ import io.reactivex.Observable
  */
 class KnowledgeModel(presenter: KnowledgePresenter) : KnowledgeContract.Model {
 
-  override val knowledgeData: Observable<BaseResponse<KnowledgeBean>>
+  override val knowledgeData: Observable<BaseResponse<List<KnowledgeBean>>>
     get() = HttpClient().wanandroidRetrofit()
         ?.create(ApiService::class.java)?.knowledgeData?.compose(RxUtil.rxSchedulerHelper())!!
 }

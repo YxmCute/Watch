@@ -160,4 +160,7 @@ public class MainFragment extends BaseMvpFragment<HomeContract.View, HomeContrac
     }
 
   }
+
+
+
 }

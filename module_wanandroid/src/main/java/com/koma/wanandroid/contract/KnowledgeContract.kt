@@ -19,7 +19,7 @@ interface KnowledgeContract {
   }
 
   interface Model : IModel {
-    val knowledgeData: Observable<BaseResponse<KnowledgeBean>>
+    val knowledgeData: Observable<BaseResponse<List<KnowledgeBean>>>
   }
 
 }

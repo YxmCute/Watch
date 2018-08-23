@@ -3,7 +3,6 @@ package com.koma.component_base.mvp
 import android.content.Context
 import android.support.annotation.CallSuper
 import com.koma.component_base.mvp.inter.IModel
-import com.koma.component_base.mvp.inter.IPresenter
 import com.koma.component_base.mvp.inter.IView
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -14,7 +13,7 @@ import io.reactivex.disposables.Disposable
  * @des
  */
 abstract class BasePresenter<V : IView, M : IModel> {
-  open lateinit var view: V
+  lateinit var view: V
   lateinit var model: M
     protected set
 

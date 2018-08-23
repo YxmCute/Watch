@@ -10,7 +10,7 @@ import android.content.Context
  * @date 2018/7/25 下午 05:15
  * @des
  */
-interface IPresenter< V : IView> : LifecycleObserver {
+interface IPresenter<V : IView> : LifecycleObserver {
   fun getContext(): Context
 
 
