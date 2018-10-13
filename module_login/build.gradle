@@ -1,0 +1,40 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+android {
+  compileSdkVersion 28
+
+
+
+  defaultConfig {
+    applicationId "com.koma.module_login"
+    minSdkVersion 15
+    targetSdkVersion 28
+    versionCode 1
+    versionName "1.0"
+
+    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    javaCompileOptions {
+      annotationProcessorOptions {
+        arguments = [moduleName: project.getName()]
+      }
+    }
+  }
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
+
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    }
+  }
+}
+
+dependencies {
+  implementation fileTree(dir: 'libs', include: ['*.jar'])
+  implementation project(':component_base')
+  annotationProcessor rootProject.ext.component_annotationPocessor.arouter_complier
+}

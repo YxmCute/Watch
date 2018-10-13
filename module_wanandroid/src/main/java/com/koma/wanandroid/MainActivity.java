@@ -143,14 +143,14 @@ public class MainActivity extends AppCompatActivity
       baseFragmentList.add(mainFragment);
 
     } else {
-      baseFragmentList.add((MainFragment) fragmentManager.findFragmentByTag("main"));
+      baseFragmentList.add(fragmentManager.findFragmentByTag("main"));
     }
     if (fragmentManager.findFragmentByTag("know") == null) {
       knowledgeFragment = new KnowledgeFragment();
       baseFragmentList.add(knowledgeFragment);
 
     } else {
-      baseFragmentList.add((KnowledgeFragment) fragmentManager.findFragmentByTag("know"));
+      baseFragmentList.add(fragmentManager.findFragmentByTag("know"));
 
     }
     if (fragmentManager.findFragmentByTag("me") == null) {
@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity
       baseFragmentList.add(meFragment);
 
     } else {
-      baseFragmentList.add((MeFragment) fragmentManager.findFragmentByTag("me"));
+      baseFragmentList.add(fragmentManager.findFragmentByTag("me"));
 
     }
     if (savedInstanceState == null) {

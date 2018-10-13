@@ -17,7 +17,7 @@ class KnowledgeAdapter(val context: Context, datas: MutableList<KnowledgeBean>)
     item ?: return
     helper.setText(R.id.w_tv_name, item.name)
     item.children.let { children ->
-      helper.setText(R.id.w_tv_cate, children.joinToString("   ", transform = { child ->
+      helper.setText(R.id.w_tv_cate, children.joinToString("  ", transform = { child ->
         child.name
       }
       ))
